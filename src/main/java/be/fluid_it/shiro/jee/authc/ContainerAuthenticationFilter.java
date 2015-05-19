@@ -4,10 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
+import java.util.EnumSet;
 
-@WebFilter(urlPatterns = {"/*"})
 public class ContainerAuthenticationFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(ContainerAuthenticationRealm.class);
     private ContainerAuthenticationBridge containerAutcBridge;
@@ -29,5 +28,10 @@ public class ContainerAuthenticationFilter implements Filter {
 
     @Override
     public void destroy() {
+    }
+
+    public static void registerFilter(ServletContext servletContext) {
+        FilterRegistration.Dynamic dynamic = servletContext.addFilter(ContainerAuthenticationFilter.class.getName(), ContainerAuthenticationFilter.class);
+        dynamic.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }
