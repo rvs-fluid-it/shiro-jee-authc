@@ -7,6 +7,7 @@
   <groupId>be.fluid-it.shiro.jee</groupId>
   <artifactId>shiro-jee-authc</artifactId>
   <version>0.1-SNAPSHOT</version>
+  <name>shiro-jee-authc</name>
   <description>Bridges JEE container authentication to Shiro security</description>
   <url>https://github.com/rvs-fluid-it/shiro-jee-authc</url>
   <licenses>
