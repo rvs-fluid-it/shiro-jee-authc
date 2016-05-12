@@ -49,6 +49,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>be.fluid-it.microservice.bundle</groupId>
+      <artifactId>microservice-bundle-api</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>be.fluid-it.guice.extensions</groupId>
       <artifactId>guice-multi-shiro-realms</artifactId>
       <version>0.1-SNAPSHOT</version>
