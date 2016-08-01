@@ -1,5 +1,7 @@
 package be.fluid_it.shiro.jee.authc;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.util.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,13 +30,22 @@ public class ContainerAuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (isAuthenticated(request)) {
-            logger.trace("Synchronize the Shiro subject with the JEE principal ...");
+            logger.trace("Synchronize the Shiro subject bound to thread [" +
+                Thread.currentThread().getId() +
+                "] with the principal bound to request [" +
+                request +
+                "] ...");
             String message = new ContainerAuthenticationBridge().synchronizeShiroSubjectWithJEEPrincipal(request);
             if (message != null) {
                 logger.info(message);
             }
         }
-        chain.doFilter(request, response);
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            logger.trace("Cleaning up the thread context (including the Shiro subject)");
+            ThreadContext.remove();
+        }
     }
 
     @Override
